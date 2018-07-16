@@ -1,58 +1,59 @@
-:host {
-	color: #ffffff;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-	background-color: #000000;
+#controls {
+	padding: 20px;
 
-	a {
-		color: #337ab7;
+	border-top-right-radius: 25px;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(2px);
+	opacity: 0;
 
-		&:hover {
-			color: #57a3e6;
-			text-decoration: underline;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+
+	@media screen and (min-width: 480px) {
+		right: inherit;
+	}
+
+	&.show, &:hover {
+		opacity: 1;
+	}
+
+	h1, p {
+		margin-top: 0px;
+		margin-bottom: 5px;
+	}
+
+	.input-group {
+		display: flex;
+		align-items: stretch;
+
+		border: 2px solid #666666;
+
+		* {
+			margin: 0px;
+			padding: 6px 12px;
+			display: inline;
+
+			vertical-align: middle;
+			font-size: 16px;
+			color: #ffffff;
+			background: none;
+			border: none;
+			cursor: default;
+		}
+		input {
+			flex-grow: 1;
+
+			cursor: text;
+			outline: none !important;
+		}
+		button {
 			cursor: pointer;
 		}
 	}
 
-	#controls {
-		padding: 20px;
-
-		background-color: hsla(0, 0%, 0%, 0.5);
-		backdrop-filter: blur(2px);
-
-		position: absolute;
-		left: 0px;
-		bottom: 0px;
-
-		.input-group {
-			padding: 2px 4px;
-			display: flex;
-			align-items: stretch;
-	
-			border: 2px solid #666666;
-	
-			* {
-				margin: 0px;
-				padding: 0px;
-				display: inline;
-	
-				vertical-align: middle;
-				font-size: 16px;
-				color: #ffffff;
-				background: none;
-				border: none;
-			}
-			input, button {
-				padding: 0px 2px;
-			}
-			input {
-				flex-grow: 1;
-
-				outline: none !important;
-			}
-		}
-
-		label {
-			display: block;
-		}
+	label {
+		display: block;
 	}
 }
