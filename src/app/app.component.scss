@@ -78,3 +78,28 @@
 		display: block;
 	}
 }
+
+#info {
+	> .modal {
+		width: 100vw;
+		max-width: 400px;
+		padding: 20px;
+	
+		border-radius: 20px;
+		background-color: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(2px);
+		
+		position: absolute;
+		top: 50vh;
+		left: 50vw;
+		transform: translate(-50%, -50%);
+	}
+
+	> .back {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+	}
+}

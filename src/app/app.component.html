@@ -1,12 +1,13 @@
 <div id="image-area" class="single">
 
 </div>
+
 <div id="controls" class="show">
 	<h1>The Internet Slideshow</h1>
-	<p>Paste a link below (<a (click)="openInfo()">See supported links</a>)</p>
+	<p>Paste a link below (<a (click)="showInfo = true">See supported links</a>)</p>
 
 	<div class="input-group">
-		<input/>
+		<input type="url"/>
 		<button>Start Slideshow</button>
 	</div>
 
@@ -19,8 +20,15 @@
 
 	<div class="input-group">
 		<div>Page</div>
-		<input value="0"/>
+		<input value="0" type="number"/>
 		<div>of 0</div>
 		<button>Go</button>
+	</div>
+</div>
+
+<div id="info" [hidden]="!showInfo">
+	<div class="back" (click)="showInfo = false"></div>
+	<div class="modal">
+		<h1>Supported Links</h1>
 	</div>
 </div>
