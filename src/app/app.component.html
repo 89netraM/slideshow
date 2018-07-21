@@ -1,18 +1,24 @@
-<div id="image-area" class="single">
-
+<div id="image-area" class="single" [class.mobile]="isMobile">
+	<app-image *ngFor="let image of images"
+	           [imageURL]="image.imageURL"
+	           [title]="image.title"
+	           [description]="image.description"
+	           [sourceURL]="image.sourceURL"
+	           [showText]="showText">
+	</app-image>
 </div>
 
-<div id="controls" class="show">
+<div id="controls" [class.show]="showControls">
 	<h1>The Internet Slideshow</h1>
 	<p>Paste a link below (<a (click)="showInfo = true">See supported links</a>)</p>
 
 	<div class="input-group">
-		<input type="url"/>
-		<button>Start Slideshow</button>
+		<input type="url" [(ngModel)]="URL"/>
+		<button (click)="loadURL(URL)">Start Slideshow</button>
 	</div>
 
 	<label>
-		<input type="checkbox"/> Show Text
+		<input type="checkbox" [(ngModel)]="showText"/> Show Text
 	</label>
 	<label>
 		<input type="checkbox"/> Slide

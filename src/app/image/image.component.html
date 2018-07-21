@@ -1,0 +1,7 @@
+<!-- #region Image/Video -->
+<img class="image" *ngIf="imageType() === 'Image'" [src]="sanitizer.bypassSecurityTrustUrl(imageURL)"/>
+<video class="image" *ngIf="imageType() === 'Video'" [src]="sanitizer.bypassSecurityTrustUrl(imageURL)" loop></video>
+<!-- #endregion -->
+
+<h1 *ngIf="showText">{{title}}</h1>
+<p *ngIf="showText">{{description}}</p>
