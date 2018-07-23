@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 	providedIn: "root"
 })
 export class ImageService {
-	public static generators: Array<ImageGenerator> = new Array<ImageGenerator>();
+	public generators: Array<ImageGenerator> = new Array<ImageGenerator>();
 
 	constructor(private http: HttpClient) {
 		const imgur = new ImageGenerator("Imgur", ["https://imgur.com/a/Ook7s", "https://imgur.com/gallery/bkChX"]);
@@ -58,11 +58,11 @@ export class ImageService {
 				throw new TypeError("Malformatted URL");
 			}
 		};
-		ImageService.generators.push(imgur);
+		this.generators.push(imgur);
 	}
 
 	public async getAlbum(URL: string): Promise<Array<Image>> {
-		for (const generator of ImageService.generators) {
+		for (const generator of this.generators) {
 			if (generator.URLChecker.test(URL)) {
 				return await generator.getImages(URL);
 			}

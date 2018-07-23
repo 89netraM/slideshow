@@ -10,7 +10,7 @@
 
 		white-space: nowrap;
 
-		&.mobile {
+		&.touch {
 			overflow-x: auto;
 			scroll-snap-type: mandatory;
 			scroll-snap-points-x: repeat(100%);
