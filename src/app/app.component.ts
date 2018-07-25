@@ -36,7 +36,7 @@ export class AppComponent {
 		return "ontouchstart" in document.documentElement;
 	}
 
-	constructor(private imageService: ImageService) { }
+	constructor(public imageService: ImageService) { }
 
 	public async loadURL(URL: string): Promise<void> {
 		this.images = await this.imageService.getAlbum(URL);
