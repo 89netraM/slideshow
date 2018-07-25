@@ -1,3 +1,16 @@
+:host {
+	overflow: hidden;
+
+	&.infinit::after {
+		content: "Loading...";
+
+		position: absolute;
+		top: 50%;
+		right: -75px;
+		transform: translate(0px, -50%);
+	}
+}
+
 #image-area {
 	position: fixed;
 	top: 0px;
@@ -43,7 +56,6 @@
 	padding: 20px;
 	
 	background-color: rgba(0, 0, 0, 0.5);
-	backdrop-filter: blur(2px);
 	opacity: 0;
 
 	position: fixed;
@@ -52,11 +64,12 @@
 	bottom: 0px;
 
 	@media screen and (min-width: 480px) {
-		right: inherit;
+		right: unset;
 	}
 
 	&.show, &:hover {
 		opacity: 1;
+		backdrop-filter: blur(2px);
 	}
 
 	h1, p {
@@ -101,7 +114,7 @@
 #info {
 	> .modal {
 		width: 100vw;
-		max-width: 400px;
+		max-width: 600px;
 		padding: 20px;
 
 		background-color: rgba(0, 0, 0, 0.5);

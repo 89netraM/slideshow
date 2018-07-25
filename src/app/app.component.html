@@ -1,7 +1,8 @@
 <div #imageArea
 	 id="image-area"
      class="single"
-	 [class.touch]="isTouch">
+	 [class.touch]="isTouch"
+     (scroll)="scroll($event)">
 	<app-image *ngFor="let image of images"
 	           [imageURL]="image.imageURL"
 	           [title]="image.title"
@@ -16,20 +17,18 @@
 	<p>Paste a link below (<a (click)="showInfo = true">See supported links</a>)</p>
 
 	<div class="input-group">
-		<input type="url" [(ngModel)]="URL"/>
+		<input type="url" [(ngModel)]="URL" (keyup.enter)="loadURL(URL)"/>
 		<button (click)="loadURL(URL)" style="min-width: 15ch;">Start Slideshow</button>
 	</div>
 
 	<label>
 		<input type="checkbox" [(ngModel)]="showText"/> Show Text
 	</label>
-	<label>
-		<input type="checkbox"/> Slide
-	</label>
+	<br/>
 
 	<div class="input-group">
 		<div style="min-width: 4ch;">Page</div>
-		<input [(ngModel)]="pageIndicator" type="number" (keyup.enter)="imageAreaScroll = pageNumber"/>
+		<input [(ngModel)]="pageNumber" type="number" (keyup.enter)="imageAreaScroll = pageNumber"/>
 		<div style="min-width: 6ch;">of {{images.length}}</div>
 		<button (click)="imageAreaScroll = pageNumber" style="min-width: 2ch;">Go</button>
 	</div>

@@ -25,7 +25,8 @@ export class ImageComponent {
 		if (/\.(png|jpg|jpeg|gif)$/i.test(this.imageURL)) {
 			return ImageType.Image;
 		}
-		else if (/\.(mp4|webm|ogg)$/i.test(this.imageURL)) {
+		else if (/\.(mp4|webm|ogg)$/i.test(this.imageURL) ||
+		         /^https?:\/\/v.redd.it/i.test(this.imageURL)) {
 			return ImageType.Video;
 		}
 	}
