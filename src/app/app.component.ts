@@ -1,5 +1,6 @@
 import { Component, HostListener, ViewChild, ElementRef, HostBinding } from "@angular/core";
 import { ImageService, Image } from "./image-service/image.service";
+import { ImageComponent } from "./image/image.component";
 
 @Component({
 	//tslint:disable-next-line:component-selector
@@ -13,9 +14,9 @@ export class AppComponent {
 	public showText: boolean = false;
 
 	public URL: string;
-	public images: Array<Image> = new Array<Image>();
+	public images: Array<Image>;
 	@HostBinding("class.infinit")
-	public infinit: boolean = false;
+	public isInfinit: boolean = false;
 	private loadingImagesFor: number = 0;
 
 	@ViewChild("imageArea")
@@ -25,7 +26,13 @@ export class AppComponent {
 	}
 	public set imageAreaScroll(value: number) {
 		this.imageArea.nativeElement.scrollLeft = this.imageArea.nativeElement.offsetWidth * value;
-		this.pageNumber = this.imageAreaScroll + 1;
+
+		if (this.images && this.images.length > 0) {
+			this.pageNumber = this.imageAreaScroll + 1;
+		}
+		else {
+			this.pageNumber = 0;
+		}
 
 		this.shouldLoadMoreImages();
 	}
@@ -40,25 +47,36 @@ export class AppComponent {
 
 	public async loadURL(URL: string): Promise<void> {
 		this.images = await this.imageService.getAlbum(URL);
-		this.infinit = this.imageService.isURLInfinit(URL);
-		this.pageNumber = 1;
+		if (this.images != null) {
+			this.isInfinit = this.imageService.isURLInfinit(URL);
 
-		if (!this.isTouch) {
+			this.imageAreaScroll = 0;
+
 			this.showControls = false;
 		}
 	}
 
 	private shouldLoadMoreImages(): void {
-		if (this.imageAreaScroll === this.images.length - 1) {
+		if (this.images && this.imageAreaScroll === this.images.length - 1) {
 			this.loadMoreImages();
 		}
 	}
 	private async loadMoreImages(): Promise<void> {
-		if (this.infinit && this.loadingImagesFor !== this.images.length - 1) {
+		if (this.isInfinit && this.images && this.loadingImagesFor !== this.images.length - 1) {
 			this.loadingImagesFor = this.images.length - 1;
 
 			const newImages: Array<Image> = await this.imageService.getAlbum(this.URL, { item: this.images[this.images.length - 1], index: this.images.length - 1});
 			this.images = this.images.concat(newImages);
+		}
+	}
+
+	public isNear(index: number): boolean {
+		return Math.abs(index - this.imageAreaScroll) < 2;
+	}
+
+	public removeFailure(failure: ImageComponent) {
+		if (this.images) {
+			this.images = this.images.filter(x => x.imageURL !== failure.imageURL);
 		}
 	}
 

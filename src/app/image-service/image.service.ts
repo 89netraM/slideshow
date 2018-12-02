@@ -10,7 +10,7 @@ export class ImageService {
 	constructor(private http: HttpClient) {
 		//#region Imgur
 		const imgur = new ImageGenerator("Imgur", ["https://imgur.com/a/Ook7s", "https://imgur.com/gallery/bkChX"]);
-		imgur.URLChecker = /https?:\/\/imgur\.com\/(?:a|gallery)\/(\w{5,})/;
+		imgur.URLChecker = /(?:https?:\/\/)?imgur\.com\/(?:a|gallery)\/(\w{5,})/;
 		imgur.infiniti = false;
 		imgur.getImages = async (URL: string) => {
 			const imgurClientID = "4805aaeb12200a0";
@@ -64,8 +64,8 @@ export class ImageService {
 		this.generators.push(imgur);
 		//#endregion
 		//#region Reddit
-		const reddit = new ImageGenerator("Reddit", ["https://www.reddit.com/r/aww/", "https://www.reddit.com/r/aww/top/?t=all", "https://www.reddit.com/user/bgiuseg8"]);
-		reddit.URLChecker = /^https?:\/\/(?:www\.)?reddit.com\/((r|u|(user))\/\w+(\/\w+)*)\/?(\?(&?\w+=\w+)+)?/i;
+		const reddit = new ImageGenerator("Reddit", ["https://www.reddit.com/r/aww/", "https://old.reddit.com/r/aww/top/?t=all", "https://reddit.com/user/bgiuseg8"]);
+		reddit.URLChecker = /^(?:https?:\/\/)?(?:www\.|old\.|new\.)?reddit.com\/((r|u|(user))\/\w+(\/\w+)*)\/?(\?(&?\w+=\w+)+)?/i;
 		reddit.infiniti = true;
 		reddit.getImages = async (URL: string, after?: { item: Image, index: number }) => {
 			if (reddit.URLChecker.test(URL)) {
@@ -133,6 +133,61 @@ export class ImageService {
 			}
 		};
 		this.generators.push(reddit);
+		//#endregion
+		//#region nhentai
+		const nhentai = new ImageGenerator("nhentai", ["https://nhentai.net/g/181278/"]);
+		nhentai.URLChecker = /(?:https?:\/\/)?nhentai\.net\/g\/181278/;
+		nhentai.infiniti = false;
+		nhentai.getImages = async (URL: string) => {
+			const imgurClientID = "4805aaeb12200a0";
+
+			const regexResults: RegExpExecArray = nhentai.URLChecker.exec(URL);
+			if (regexResults.length === 2) {
+				const json = await this.http.get<any>(
+					`https://api.imgur.com/3/album/${regexResults[1]}/images`,
+					{
+						headers: {
+							"authorization": `Client-ID ${imgurClientID}`
+						}
+					}
+				).toPromise();
+
+				if (json.success === true && json.data.length > 0) {
+					const images: Array<Image> = new Array<Image>();
+
+					for (const imgurImage of json.data) {
+						let imageURL: string;
+						if (imgurImage.animated) {
+							if (imgurImage.mp4 !== "") {
+								imageURL = imgurImage.mp4;
+							}
+							else {
+								imageURL = imgurImage.gifv.replace(".gifv", ".mp4");
+							}
+						}
+						else {
+							imageURL = imgurImage.link;
+						}
+
+						images.push(new Image(
+							imgurImage.id,
+							imageURL,
+							imgurImage.title,
+							imgurImage.description
+						));
+					}
+
+					return images;
+				}
+				else {
+					throw new Error("No response");
+				}
+			}
+			else {
+				throw new TypeError("Malformatted URL");
+			}
+		};
+		this.generators.push(nhentai);
 		//#endregion
 	}
 

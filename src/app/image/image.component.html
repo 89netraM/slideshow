@@ -1,7 +1,21 @@
-<!-- #region Image/Video -->
-<img class="image" *ngIf="imageType() === 'Image'" [src]="sanitizer.bypassSecurityTrustUrl(imageURL)"/>
-<video class="image" *ngIf="imageType() === 'Video'" [src]="sanitizer.bypassSecurityTrustUrl(imageURL)" loop autoplay></video>
-<!-- #endregion -->
+<div class="image-holder" *ngIf="near">
+		<img
+			class="image"
+			*ngIf="imageType === 'Image'"
+			[src]="sanitizer.bypassSecurityTrustUrl(imageURL)"
+			(error)="imageError($event);"/>
+		<video
+			#videoElement
+			class="image"
+			*ngIf="imageType === 'Video'"
+			[src]="sanitizer.bypassSecurityTrustUrl(imageURL)"
+			[autoplay]="active"
+			[muted]="active"
+			loop>
+		</video>
+</div>
 
-<h1 *ngIf="showText && title != null"><a [href]="sanitizer.bypassSecurityTrustUrl(sourceURL)" target="_blank">{{title}}</a></h1>
+<h1 *ngIf="showText && title != null">
+	<a [href]="sanitizer.bypassSecurityTrustUrl(sourceURL)" target="_blank">{{title}}</a>
+</h1>
 <p *ngIf="showText && description != null">{{description}}</p>

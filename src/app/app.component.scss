@@ -111,6 +111,29 @@
 	}
 }
 
+#controls-toggle {
+	padding: 10px 20px;
+
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(2px);
+
+	display: none;
+
+	position: fixed;
+	left: 50%;
+	bottom: 0px;
+
+	transform: translate(-50%, 0px);
+
+	&.show {
+		display: block;
+	}
+
+	p {
+		margin: 0px;
+	}
+}
+
 #info {
 	> .modal {
 		width: 100vw;
