@@ -136,6 +136,7 @@ export class ImageService {
 		//#endregion
 		//#region nhentai
 		const nhentai = new ImageGenerator("nhentai", ["https://nhentai.net/g/181278/"]);
+		nhentai.showExample = false;
 		nhentai.URLChecker = /(?:https?:\/\/)?nhentai\.net\/g\/181278/;
 		nhentai.infiniti = false;
 		nhentai.getImages = async (URL: string) => {
@@ -213,14 +214,22 @@ export class ImageGenerator {
 	public examples: Array<string>;
 	public URLChecker: RegExp;
 	public infiniti: boolean;
+	public showExample: boolean;
 
-	constructor(site: string, examples: Array<string>|string) {
+	constructor(site: string, examples: Array<string>|string = null) {
 		this.site = site;
-		if (examples instanceof Array) {
-			this.examples = examples;
+
+		if (examples !== null) {
+			if (examples instanceof Array) {
+				this.examples = examples;
+			}
+			else {
+				this.examples = [examples];
+			}
+			this.showExample = true;
 		}
 		else {
-			this.examples = [examples];
+			this.showExample = false;
 		}
 	}
 

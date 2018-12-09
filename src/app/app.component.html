@@ -49,17 +49,19 @@
 	<div class="modal">
 		<h1>Supported Links</h1>
 		<ul>
-			<li *ngFor="let generator of imageService.generators">
-				{{generator.site}}
-				<table>
-					<tr *ngFor="let example of generator.examples; let i = index;">
-						<td>
-							<span *ngIf="i === 0">Example:</span>
-						</td>
-						<td><code>{{example}}</code></td>
-					</tr>
-				</table>
-			</li>
+			<ng-container *ngFor="let generator of imageService.generators">
+				<li *ngIf="generator.showExample">
+					{{generator.site}}
+					<table>
+						<tr *ngFor="let example of generator.examples; let i = index;">
+							<td>
+								<span *ngIf="i === 0">Example:</span>
+							</td>
+							<td><code>{{example}}</code></td>
+						</tr>
+					</table>
+				</li>
+			</ng-container>
 		</ul>
 	</div>
 </div>
