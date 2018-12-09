@@ -1,16 +1,20 @@
-<div class="image-holder" *ngIf="near">
+<div class="image-holder"
+	*ngIf="near"
+	(wheel)="onScroll($event)">
 		<img
 			class="image"
+			[class.zoom]="zoom"
 			*ngIf="imageType === 'Image'"
 			[src]="sanitizer.bypassSecurityTrustUrl(imageURL)"
-			(error)="imageError($event);"/>
+			(error)="imageError($event);"
+			(click)="zoom = !zoom"/>
 		<video
 			#videoElement
 			class="image"
 			*ngIf="imageType === 'Video'"
 			[src]="sanitizer.bypassSecurityTrustUrl(imageURL)"
 			[autoplay]="active"
-			[muted]="active"
+			[muted]="!active"
 			loop>
 		</video>
 </div>
