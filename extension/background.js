@@ -9,13 +9,29 @@ browser.contextMenus.create({
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === contextMenuId) {
-		openLink(info.linkUrl);
+		openLink(info.linkUrl, tab.windowId);
 	}
 });
 
-function openLink(link) {
-	browser.tabs.create({
-		active: true,
-		url: link
+async function openLink(link, windowId) {
+	const tabs = await browser.tabs.query({
+		url: "*://åsberg.net/slideshow/*",
+		windowId: windowId
 	});
+
+	if (tabs.length > 0) {
+		browser.tabs.update(
+			tabs[0].id,
+			{
+				active: true,
+				url: link
+			}
+		);
+	}
+	else {
+		browser.tabs.create({
+			active: true,
+			url: link
+		});
+	}
 }
