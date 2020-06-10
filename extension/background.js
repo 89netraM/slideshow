@@ -25,19 +25,20 @@ async function openLink(link, windowId) {
 		windowId: windowId
 	});
 
+	const slideshowUrl = "https://åsberg.net/slideshow?link=" + encodeURIComponent(link);
 	if (tabs.length > 0) {
 		browser.tabs.update(
 			tabs[0].id,
 			{
 				active: true,
-				url: link
+				url: slideshowUrl
 			}
 		);
 	}
 	else {
 		browser.tabs.create({
 			active: true,
-			url: link
+			url: slideshowUrl
 		});
 	}
 }
