@@ -1,7 +1,5 @@
-const bro = window.browser || window.chrome;
-
 const contextMenuId = "openSlideshow"
-bro.contextMenus.create({
+browser.contextMenus.create({
 	id: contextMenuId,
 	title: "Open in åsberg.net/slideshow",
 	contexts: [
@@ -9,14 +7,14 @@ bro.contextMenus.create({
 	]
 });
 
-bro.contextMenus.onClicked.addListener((info, tab) => {
+browser.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === contextMenuId) {
 		openLink(info.linkUrl);
 	}
 });
 
 function openLink(link) {
-	bro.tabs.create({
+	browser.tabs.create({
 		active: true,
 		url: link
 	});
