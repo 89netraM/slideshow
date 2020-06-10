@@ -1,0 +1,23 @@
+{
+	"manifest_version": 2,
+
+	"name": "Slideshow",
+	"version": "0.0.0",
+	"icons": {
+		"24": "icon.png",
+		"48": "icon@2x.png",
+		"96": "icon@4x.png"
+	},
+
+	"background": {
+		"scripts": [
+			"browser-polyfill.min.js",
+			"background.js"
+		]
+	},
+
+	"permissions": [
+		"tabs",
+		"contextMenus"
+	]
+}

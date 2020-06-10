@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild, ElementRef, HostBinding } from "@angular/core";
+import { Component, HostListener, ViewChild, ElementRef, HostBinding, OnInit } from "@angular/core";
 import { ImageService, Image } from "./image-service/image.service";
 import { ImageComponent } from "./image/image.component";
 
@@ -8,7 +8,7 @@ import { ImageComponent } from "./image/image.component";
 	templateUrl: "./app.component.html",
 	styleUrls: ["./app.component.scss"]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	public showControls: boolean = true;
 	public showInfo: boolean = false;
 	public showText: boolean = false;
@@ -44,6 +44,17 @@ export class AppComponent {
 	}
 
 	constructor(public imageService: ImageService) { }
+
+	public ngOnInit(): void {
+		const matches = window.location.href.match(/link=(.*?)(?=&|$)/);
+		if (matches != null && matches.length > 1) {
+			const initLink = decodeURIComponent(matches[1]);
+			if (initLink != null) {
+				this.URL = initLink;
+				this.loadURL(this.URL);
+			}
+		}
+	}
 
 	public async loadURL(URL: string): Promise<void> {
 		this.images = await this.imageService.getAlbum(URL);
