@@ -2,5 +2,15 @@
 	"manifest_version": 2,
 
 	"name": "Slideshow",
-	"version": "0.0.0"
+	"version": "0.0.0",
+
+	"background": {
+		"scripts": [
+			"background.js"
+		]
+	},
+
+	"permissions": [
+		"contextMenus"
+	]
 }
