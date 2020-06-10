@@ -10,5 +10,14 @@ bro.contextMenus.create({
 });
 
 bro.contextMenus.onClicked.addListener((info, tab) => {
-	console.log(info, tab);
+	if (info.menuItemId === contextMenuId) {
+		openLink(info.linkUrl);
+	}
 });
+
+function openLink(link) {
+	bro.tabs.create({
+		active: true,
+		url: link
+	});
+}
