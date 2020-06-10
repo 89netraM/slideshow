@@ -4,6 +4,12 @@ browser.contextMenus.create({
 	title: "Open in åsberg.net/slideshow",
 	contexts: [
 		"link"
+	],
+	targetUrlPatterns: [
+		"*://imgur.com/a/*",
+		"*://imgur.com/gallery/*",
+
+		"*://*.reddit.com/*/*"
 	]
 });
 
