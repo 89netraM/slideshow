@@ -134,62 +134,6 @@ export class ImageService {
 		};
 		this.generators.push(reddit);
 		//#endregion
-		//#region nhentai
-		const nhentai = new ImageGenerator("nhentai", ["https://nhentai.net/g/181278/"]);
-		nhentai.showExample = false;
-		nhentai.URLChecker = /(?:https?:\/\/)?nhentai\.net\/g\/181278/;
-		nhentai.infiniti = false;
-		nhentai.getImages = async (URL: string) => {
-			const imgurClientID = "4805aaeb12200a0";
-
-			const regexResults: RegExpExecArray = nhentai.URLChecker.exec(URL);
-			if (regexResults.length === 2) {
-				const json = await this.http.get<any>(
-					`https://api.imgur.com/3/album/${regexResults[1]}/images`,
-					{
-						headers: {
-							"authorization": `Client-ID ${imgurClientID}`
-						}
-					}
-				).toPromise();
-
-				if (json.success === true && json.data.length > 0) {
-					const images: Array<Image> = new Array<Image>();
-
-					for (const imgurImage of json.data) {
-						let imageURL: string;
-						if (imgurImage.animated) {
-							if (imgurImage.mp4 !== "") {
-								imageURL = imgurImage.mp4;
-							}
-							else {
-								imageURL = imgurImage.gifv.replace(".gifv", ".mp4");
-							}
-						}
-						else {
-							imageURL = imgurImage.link;
-						}
-
-						images.push(new Image(
-							imgurImage.id,
-							imageURL,
-							imgurImage.title,
-							imgurImage.description
-						));
-					}
-
-					return images;
-				}
-				else {
-					throw new Error("No response");
-				}
-			}
-			else {
-				throw new TypeError("Malformatted URL");
-			}
-		};
-		this.generators.push(nhentai);
-		//#endregion
 	}
 
 	public async getAlbum(URL: string, after?: { item: Image, index: number }): Promise<Array<Image>> {
