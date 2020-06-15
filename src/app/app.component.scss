@@ -75,6 +75,11 @@
 	h1, p {
 		margin-top: 0px;
 		margin-bottom: 5px;
+
+		&:last-child {
+			margin-top: 5px;
+			margin-bottom: 0px;
+		}
 	}
 
 	.input-group {

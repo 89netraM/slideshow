@@ -1,6 +1,7 @@
 import { Component, HostListener, ViewChild, ElementRef, HostBinding, OnInit } from "@angular/core";
 import { ImageService, Image } from "./image-service/image.service";
 import { ImageComponent } from "./image/image.component";
+import { openExtensionLink } from "./extension-opener/extension-opener";
 
 @Component({
 	//tslint:disable-next-line:component-selector
@@ -129,5 +130,13 @@ export class AppComponent implements OnInit {
 		this.pageNumber = this.imageAreaScroll + 1;
 
 		this.shouldLoadMoreImages();
+	}
+
+	public openExtensionPage(): void {
+		const success = openExtensionLink();
+
+		if (!success) {
+			alert("The extension isn't available to your browser.");
+		}
 	}
 }
