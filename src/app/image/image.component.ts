@@ -57,7 +57,7 @@ export class ImageComponent {
 		this._active = value;
 	}
 
-	public zoom: boolean = false;
+	public zoom: number = 0;
 
 	@ViewChild("videoElement")
 	private videoElement: ElementRef<HTMLVideoElement>;
@@ -75,7 +75,7 @@ export class ImageComponent {
 	}
 
 	public onScroll(e: WheelEvent): void {
-		if (this.zoom) {
+		if (this.zoom !== 0) {
 			e.stopPropagation();
 		}
 	}
@@ -84,7 +84,7 @@ export class ImageComponent {
 		//TODO: Do stuff!
 	}
 	public deactivate(): void {
-		this.zoom = false;
+		this.zoom = 0;
 	}
 }
 

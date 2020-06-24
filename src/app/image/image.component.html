@@ -3,11 +3,12 @@
 	(wheel)="onScroll($event)">
 		<img
 			class="image"
-			[class.zoom]="zoom"
+			[class.zoom]="zoom > 0"
+			[class.zoom-full]="zoom > 1"
 			*ngIf="imageType === 'Image'"
 			[src]="sanitizer.bypassSecurityTrustUrl(imageURL)"
 			(error)="imageError($event);"
-			(click)="zoom = !zoom"/>
+			(click)="zoom = (zoom + 1) % 3"/>
 		<video
 			#videoElement
 			class="image"
