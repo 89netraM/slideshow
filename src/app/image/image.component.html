@@ -2,13 +2,14 @@
 	*ngIf="near"
 	(wheel)="onScroll($event)">
 		<img
+			#imageElement
 			class="image"
 			[class.zoom]="zoom > 0"
 			[class.zoom-full]="zoom > 1"
 			*ngIf="imageType === 'Image'"
 			[src]="sanitizer.bypassSecurityTrustUrl(imageURL)"
 			(error)="imageError($event);"
-			(click)="zoom = (zoom + 1) % 3"/>
+			(click)="toggleZoom()"/>
 		<video
 			#videoElement
 			class="image"
