@@ -96,7 +96,7 @@ export class ImageComponent {
 				this.zoom = 1;
 				break;
 			case 1:
-				if (this.imageElement.nativeElement.getBoundingClientRect().width >= document.body.getBoundingClientRect().width) {
+				if (this.imageElement.nativeElement.naturalWidth >= document.body.getBoundingClientRect().width) {
 					this.zoom = 2;
 					break;
 				}
