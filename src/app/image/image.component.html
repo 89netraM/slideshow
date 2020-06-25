@@ -6,6 +6,7 @@
 			class="image"
 			[class.zoom]="zoom > 0"
 			[class.zoom-full]="zoom > 1"
+			[class.zoom-out]="!canZoom()"
 			*ngIf="imageType === 'Image'"
 			[src]="sanitizer.bypassSecurityTrustUrl(imageURL)"
 			(error)="imageError($event);"

@@ -105,6 +105,18 @@ export class ImageComponent {
 				break;
 		}
 	}
+	public canZoom(): boolean {
+		switch (this.zoom) {
+			case 0:
+				return true;
+			case 1:
+				if (this.imageElement.nativeElement.naturalWidth >= document.body.getBoundingClientRect().width) {
+					return true;
+				}
+			default:
+				return false;
+		}
+	}
 }
 
 enum ImageType {
