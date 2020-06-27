@@ -59,6 +59,9 @@ export class ImageComponent {
 
 	public zoom: number = 0;
 
+	@ViewChild("imageElement")
+	private imageElement: ElementRef<HTMLImageElement>;
+
 	@ViewChild("videoElement")
 	private videoElement: ElementRef<HTMLVideoElement>;
 
@@ -85,6 +88,34 @@ export class ImageComponent {
 	}
 	public deactivate(): void {
 		this.zoom = 0;
+	}
+
+	public toggleZoom(): void {
+		switch (this.zoom) {
+			case 0:
+				this.zoom = 1;
+				break;
+			case 1:
+				if (this.imageElement.nativeElement.naturalWidth >= document.body.getBoundingClientRect().width) {
+					this.zoom = 2;
+					break;
+				}
+			default:
+				this.zoom = 0;
+				break;
+		}
+	}
+	public canZoom(): boolean {
+		switch (this.zoom) {
+			case 0:
+				return true;
+			case 1:
+				if (this.imageElement.nativeElement.naturalWidth >= document.body.getBoundingClientRect().width) {
+					return true;
+				}
+			default:
+				return false;
+		}
 	}
 }
 

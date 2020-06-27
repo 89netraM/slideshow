@@ -63,9 +63,11 @@
 
 				&.zoom-full {
 					max-width: none;
-					
-					cursor: zoom-out;
 				}
+			}
+
+			&.zoom-out {
+				cursor: zoom-out;
 			}
 		}
 	}
