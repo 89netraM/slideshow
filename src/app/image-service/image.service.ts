@@ -134,6 +134,37 @@ export class ImageService {
 		};
 		this.generators.push(reddit);
 		//#endregion
+		//#region Reddit Gallery
+		const redditGallery = new ImageGenerator("Reddit Gallery", ["https://www.reddit.com/gallery/hrrh23"]);
+		redditGallery.URLChecker = /^(?:https?:\/\/)?(?:www\.|old\.|new\.)?reddit\.com\/gallery\/(\w+)\/?$/i;
+		redditGallery.infiniti = false;
+		redditGallery.getImages = async (URL: string, after?: { item: Image, index: number }) => {
+			const matches = redditGallery.URLChecker.exec(URL);
+			if (matches.length > 1) {
+				const id = matches[1];
+				
+				const json = await this.http.get<any>(`https://www.reddit.com/${id}.json`).toPromise();
+				try {
+					const items: Array<{ caption: string, media_id: string }> = json[0].data.children[0].data.gallery_data.items;
+
+					return items.map(i => new Image(
+						i.media_id,
+						`https://i.redd.it/${i.media_id}.jpg`,
+						null,
+						i.caption,
+						null
+					));
+				}
+				catch {
+					throw new Error("No response");
+				}
+			}
+			else {
+				throw new Error("Malformatted URL");
+			}
+		};
+		this.generators.push(redditGallery);
+		//#endregion
 	}
 
 	public async getAlbum(URL: string, after?: { item: Image, index: number }): Promise<Array<Image>> {
