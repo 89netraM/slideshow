@@ -65,13 +65,13 @@ export class ImageService {
 		//#endregion
 		//#region Reddit
 		const reddit = new ImageGenerator("Reddit", ["https://www.reddit.com/r/aww/", "https://old.reddit.com/r/aww/top/?t=all", "https://reddit.com/user/bgiuseg8"]);
-		reddit.URLChecker = /^(?:https?:\/\/)?(?:www\.|old\.|new\.)?reddit.com\/((r|u|(user))\/\w+(\/\w+)*)\/?(\?(&?\w+=\w+)+)?/i;
+		reddit.URLChecker = /^(?:https?:\/\/)?(?:www\.|old\.|new\.)?reddit.com\/((?:r|u|(?:user))\/\w+(?:\/\w+)*)\/?(\?(?:&?\w+=\w+)+)?$/i;
 		reddit.infiniti = true;
 		reddit.getImages = async (URL: string, after?: { item: Image, index: number }) => {
 			if (reddit.URLChecker.test(URL)) {
-				let apiURL: string = URL.replace(reddit.URLChecker, "https://www.reddit.com/$1.json$6");
+				let apiURL: string = URL.replace(reddit.URLChecker, "https://www.reddit.com/$1.json$2");
 				if (after != null) {
-					apiURL += URL.indexOf("?") !== -1 ? "&" : "?" + "after=" + after.item.id;
+					apiURL += URL.includes("?") ? "&" : "?" + "after=" + after.item.id;
 				}
 
 				const json = await this.http.get<any>(
