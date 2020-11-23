@@ -145,11 +145,12 @@ export class ImageService {
 				
 				const json = await this.http.get<any>(`https://www.reddit.com/${id}.json`).toPromise();
 				try {
-					const items: Array<{ caption: string, media_id: string }> = json[0].data.children[0].data.gallery_data.items;
+					const data = json[0].data.children[0].data;
+					const items: Array<{ caption: string, media_id: string }> = data.gallery_data.items;
 
 					return items.map(i => new Image(
 						i.media_id,
-						`https://i.redd.it/${i.media_id}.jpg`,
+						`https://i.redd.it/${i.media_id}.${data.media_metadata[i.media_id].m.split("/")[1]}`,
 						null,
 						i.caption,
 						null
